@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import face_recognition as fr
+import os
 
 cap = cv2.VideoCapture(0)
 
@@ -8,6 +9,11 @@ if cap.isOpened():
     my_img = fr.load_image_file("./known/me.jpg")
     my_face_encoding = fr.face_encodings(my_img)[0]
     process_time = True
+    count_boss = 0
+    has_fake = False
+
+    fake_code_img = fr.load_image_file("fakecode.png")
+    fake_code_img = cv2.cvtColor(fake_code_img, cv2.COLOR_BGR2RGB)
     
     while True:
         ret, frame = cap.read()  # each for method return and function return 
@@ -20,13 +26,34 @@ if cap.isOpened():
             face_name = []
             for i in face_encodings:
                 match = fr.compare_faces([my_face_encoding], i, 0.4)
-
-                name = "Unknown"
+                
                 if match[0]:
-                    name = "Jimmy"
+                    name = "boss"
+                else:
+                    name = "Unknown"
 
                 face_name.append(name)
 
+            if count_boss > 10:
+                count_boss -= 3
+            if count_boss < -5:
+                count_boss += 5
+
+            if "boss" in face_name:
+                count_boss += 1
+            else:
+                count_boss -= 1
+
+            print count_boss
+            if count_boss > 5:
+                cv2.namedWindow("fake", cv2.WND_PROP_FULLSCREEN)
+                cv2.setWindowProperty("fake", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+                cv2.imshow("fake", fake_code_img)
+                has_fake = True
+            elif count_boss <= 5 and has_fake:
+                cv2.destroyWindow("fake")
+                has_fake = False
+            
         process_time = not process_time
 
         for (top, right, bottom, left), name in zip(face_locations, face_name):
