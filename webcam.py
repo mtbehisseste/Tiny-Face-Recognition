@@ -8,13 +8,14 @@ cap = cv2.VideoCapture(0)
 if cap.isOpened():
     my_img = fr.load_image_file("./known/me.jpg")
     my_face_encoding = fr.face_encodings(my_img)[0]
+
+    fake_code_img = fr.load_image_file("fakecode.png")
+    fake_code_img = cv2.cvtColor(fake_code_img, cv2.COLOR_BGR2RGB)
+
     process_time = True
     count_boss = 0
     has_fake = False
 
-    fake_code_img = fr.load_image_file("fakecode.png")
-    fake_code_img = cv2.cvtColor(fake_code_img, cv2.COLOR_BGR2RGB)
-    
     while True:
         ret, frame = cap.read()  # each for method return and function return 
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
@@ -32,25 +33,28 @@ if cap.isOpened():
                 else:
                     name = "Unknown"
 
+                # print name
                 face_name.append(name)
 
-            if count_boss > 10:
-                count_boss -= 3
+            if count_boss > 5:
+                count_boss -= 1
             if count_boss < -5:
-                count_boss += 5
+                count_boss += 1
 
             if "boss" in face_name:
+                if count_boss < -3:
+                    count_boss = 0
                 count_boss += 1
             else:
                 count_boss -= 1
-
             print count_boss
+
             if count_boss > 5:
-                cv2.namedWindow("fake", cv2.WND_PROP_FULLSCREEN)
+                cv2.namedWindow("fake", cv2.WINDOW_NORMAL)
                 cv2.setWindowProperty("fake", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
                 cv2.imshow("fake", fake_code_img)
                 has_fake = True
-            elif count_boss <= 5 and has_fake:
+            elif count_boss <= 0 and has_fake:
                 cv2.destroyWindow("fake")
                 has_fake = False
             
@@ -67,7 +71,7 @@ if cap.isOpened():
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
-        cv2.imshow("frame", frame)
+        # cv2.imshow("frame", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 

@@ -52,7 +52,7 @@ def faceD(image, detector):
 	det48_img = draw_bboxes(image, bboxes, color = (255, 0, 0))
 	bboxes = detector.predict(image, bboxes, net='net48_cal', threshold=0.9)
 	cal48_img = draw_bboxes(image, bboxes, color = (255, 0, 0))
-	bboxes = detector.non_max_sup(bboxes, iou_thresh = 0.3)
+	bboxes = detector.non_max_sup(bboxes, iou_thresh = 0.2)
 	nms48_img = draw_bboxes(image, bboxes, color = (255, 0, 0))
 	
 	
