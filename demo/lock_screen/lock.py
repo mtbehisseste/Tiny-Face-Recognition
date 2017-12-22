@@ -38,7 +38,7 @@ if cap.isOpened():
                     name = "UNKNOWN"
                     unknown_counter += 1
                     if match[0]:
-                        name = "JIMMY"
+                        name = "USER"
                         known_counter += 1
                         unknown_counter -= 1
                     names.append(name)

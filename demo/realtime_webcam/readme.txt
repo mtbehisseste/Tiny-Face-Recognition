@@ -1,4 +1,11 @@
 =====Realtime Face Recognition with Webcam=====
+This program shows where faces are by drawing a rectangle on the faces.
+If the face is known, it will show the name you set, otherwise it will show "UNKNOWN".
+All the above functions can be implement in realtime with the webcam.
+
+*Usage: Change the image file at line 5 in recognition.py to your own face image.
+Change the name you want to show at line 30 in recognition.py .
+If more than one people want to be recognized, check out the example in https://github.com/ageitgey/face_recognition.
 
 To run this program, you must download the things below first.
 (python2.7 running on Ubuntu 16.04)

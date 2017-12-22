@@ -1,4 +1,10 @@
 =====Screen Locker=====
+First you need to enter your password of the user. The password won't be showed out so there's no need to worry about password leaking. 
+The Screen Locker will lock the screen when it detects some faces that is unknown.
+It will automatically key in the password when detecting the known face.
+Note that the program is only avalible with Linux and is testing on Ubuntu 16.04.
+
+*Usage: Change the image file at line 6 in lock.py to your own face image.
 
 To run this program, you must download the things below first.
 (python2.7 running on Ubuntu 16.04)
