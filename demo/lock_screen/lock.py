@@ -4,7 +4,6 @@ import os
 import getpass
 cap = cv2.VideoCapture(0)
 my_image = fr.load_image_file("me.jpg")
-fake_page = cv2.imread("fake.bmp")
 my_encoding = fr.face_encodings(my_image)[0] 
 unknown_counter = 0
 known_counter = 0
